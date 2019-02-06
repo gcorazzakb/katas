@@ -1,6 +1,14 @@
-public class SpeedControl {
-    public static long gps(int i, double[] x) {
-        return -1;
+class SpeedControl {
+
+    public static long gps(int seconds, double[] locations) {
+        double[] deltas = getDeltas(locations);
+        double[] speeds= new double[deltas.length];
+        for (int i = 0; i < deltas.length; i++) {
+            double delta = deltas[i];
+            speeds[i]=calculateSpeedFromDelta(delta,seconds);
+        }
+
+        return (long) Math.floor(getMaximumFromArray(speeds));
     }
 
     public static double[] getDeltas(double[] data) {
@@ -11,10 +19,16 @@ public class SpeedControl {
         return deltas;
     }
 
-    public static double calculateSpeedFromDelat(double delta, double seconds) {
+    public static double calculateSpeedFromDelta(double delta, double seconds) {
         return (3600*delta)/seconds;
     }
 
     public static double getMaximumFromArray(double[] data) {
+        double max=Double.NEGATIVE_INFINITY;
+        for (int i = 0; i < data.length; i++) {
+            double datum = data[i];
+            max=Math.max(max,datum);
+        }
+        return max;
     }
 }
