@@ -12,6 +12,9 @@ class SpeedControl {
     }
 
     public static double[] getDeltas(double[] data) {
+        if (data.length==0){
+            return new double[0];
+        }
         double[] deltas = new double[data.length-1];
         for (int i = 0; i < data.length-1; i++) {
             deltas[i] = Math.abs(data[i] - data[i+1]);
