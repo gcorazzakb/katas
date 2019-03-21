@@ -1,31 +1,36 @@
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 class Cycle {
 
-    private static int roundTo=1000;
-
     public static int cycle(int n) {
-        if (isCoPrimeTo10(n)){
-            String fraction=new BigDecimal(1).divide(new BigDecimal(n),roundTo, 0).toString().replaceAll("\\d*\\.","");
-            System.out.println(fraction);
-            for (int i = 1; i < roundTo; i++) {
-                String regex="("+fraction.substring(0,i)+"){5}.*";
-                if(fraction.matches(regex)){
-                    return i;
-                }
-            }
-        }else{
-            return -1;
+        if (isCoPrimeTo10(n)) {
+            return findCycle(n);
         }
         return -1;
     }
 
-    public static boolean isCoPrimeTo10(int co) {
-        for (int i = 2; i < 10; i++) {
-            if(10%i==0 && co%i==0){
-                return false;
+    private static int findCycle(int n) {
+        Map<Integer,Integer> divs = new HashMap<>();
+        int div = (int) Math.pow(10,(int) (Math.log10(n) + 1));
+        int i=0;
+        while (div != 0) {
+            divs.put(div,i);
+            div -= ((div / n) * n);
+            div*=10;
+            Integer index = divs.get(div);
+            if (index !=null){
+                return divs.size()-index;
             }
         }
-        return true;
+
+        return -1;
+    }
+
+
+    public static boolean isCoPrimeTo10(int co) {
+        return (co % 2) * (co % 5) != 0;
     }
 }

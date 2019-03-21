@@ -10,7 +10,7 @@ public class CycleTest {
 
     @Test
     public void test1() {
-        dotest(33, 2);
+        dotest(11, 2);
         dotest(18118, -1);
         dotest(69, 22);
         dotest(197, 98);
